@@ -230,7 +230,7 @@ Courier.objects.create(
 Run unit tests:
 
 ```bash
-python manage.py test zs.apps.courier_integrations
+python manage.py test zs.apps.courier_integrations.tests
 ```
 
 ## Management Commands
