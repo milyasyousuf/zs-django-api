@@ -351,26 +351,3 @@ SPECTACULAR_SETTINGS = {
     "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
     "SCHEMA_PATH_PREFIX": "/api/",
 }
-
-
-COURIER_MAPPING = {
-    'smsa': 'zs.apps.courier_integrations.adapters.smsa.SMSACourierAdapter',
-    'aramex': 'zs.apps.courier_integrations.adapters.aramex.ARAMEXCourierAdapter',
-    # Add more couriers as needed
-}
-
-COURIER_CONFIG = {
-    'SMSA': {
-        'api_url': env('SMSA_API_URL', default='https://api.smsa.com/v2'),
-        'pass_key': env('SMSA_PASS_KEY', default="test"),
-        'tracking_url': env('SMSA_TRACKING_URL', default='https://www.smsa.com/track'),
-    },
-    'ARAMEX': {
-        'api_url': env('ARAMEX_API_URL', default='https://api.aramex.com/v1'),
-        'username': env('ARAMEX_USERNAME', default="test"),
-        'password': env('ARAMEX_PASSWORD', default="test"),
-        'pass_key': env('SMSA_PASS_KEY', default="test"),
-        'account_number': env('ARAMEX_ACCOUNT_NUMBER', default="test"),
-        'tracking_url': env('ARAMEX_TRACKING_URL', default='https://www.aramex.com/track'),
-    },
-}
