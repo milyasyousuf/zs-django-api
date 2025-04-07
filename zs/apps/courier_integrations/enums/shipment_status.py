@@ -8,6 +8,7 @@ class ShipmentStatus(models.TextChoices):
     IN_TRANSIT = "in_transit", _("In Transit")
     OUT_FOR_DELIVERY = "out_for_delivery", _("Out for Delivery")
     DELIVERED = "delivered", _("Delivered")
+    ATTEMPTED_DELIVERY = "attempted_delivery", _("Attempted Delivery")
     FAILED = "failed", _("Failed")
     RETURNED = "returned", _("Returned")
     CANCELLED = "cancelled", _("Cancelled")

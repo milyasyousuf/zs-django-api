@@ -354,23 +354,29 @@ SPECTACULAR_SETTINGS = {
 
 
 COURIER_MAPPING = {
-    'smsa': 'zs.apps.courier_integrations.adapters.smsa.SMSACourierAdapter',
     'aramex': 'zs.apps.courier_integrations.adapters.aramex.ARAMEXCourierAdapter',
     # Add more couriers as needed
 }
 
 COURIER_CONFIG = {
-    'SMSA': {
-        'api_url': env('SMSA_API_URL', default='https://api.smsa.com/v2'),
-        'pass_key': env('SMSA_PASS_KEY', default="test"),
-        'tracking_url': env('SMSA_TRACKING_URL', default='https://www.smsa.com/track'),
-    },
     'ARAMEX': {
-        'api_url': env('ARAMEX_API_URL', default='https://api.aramex.com/v1'),
-        'username': env('ARAMEX_USERNAME', default="test"),
-        'password': env('ARAMEX_PASSWORD', default="test"),
-        'pass_key': env('SMSA_PASS_KEY', default="test"),
-        'account_number': env('ARAMEX_ACCOUNT_NUMBER', default="test"),
-        'tracking_url': env('ARAMEX_TRACKING_URL', default='https://www.aramex.com/track'),
+        'api_url': env('ARAMEX_API_URL', default='http://ws.aramex.net'),
+        'username': env('ARAMEX_USERNAME', default="testingapi@aramex.com"),
+        'password': env('ARAMEX_PASSWORD', default="R123456789$r"),
+        'account_number': env('ARAMEX_ACCOUNT_NUMBER', default="20016"),
+        'account_pin': env('ARAMEX_ACCOUNT_PIN', default="331421"),
+        'account_entity': env('ARAMEX_ACCOUNT_ENTITY', default="AMM"),
+        'account_country_code': env('ARAMEX_ACCOUNT_COUNTRY_CODE', default="JO"),
+        'source': env('ARAMEX_SOURCE', default=24),
+        'tracking_url': env('ARAMEX_TRACKING_URL', default='https://www.aramex.com/track/results'),
+        'shipper_name': env('ARAMEX_SHIPPER_NAME', default="Test Shipper"),
+        'shipper_company': env('ARAMEX_SHIPPER_COMPANY', default="Test Company"), 
+        'shipper_address_line1': env('ARAMEX_SHIPPER_ADDRESS_LINE1', default="Test Address Line 1"),
+        'shipper_address_line2': env('ARAMEX_SHIPPER_ADDRESS_LINE2', default="Test Address Line 2"),
+        'shipper_city': env('ARAMEX_SHIPPER_CITY', default="Amman"),
+        'shipper_postal_code': env('ARAMEX_SHIPPER_POSTAL_CODE', default="11953"),
+        'shipper_country_code': env('ARAMEX_SHIPPER_COUNTRY_CODE', default="JO"),
+        'shipper_phone': env('ARAMEX_SHIPPER_PHONE', default="+962777777777"),
+        'shipper_email': env('ARAMEX_SHIPPER_EMAIL', default="test@example.com"),
     },
 }

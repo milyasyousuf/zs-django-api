@@ -1,152 +1,239 @@
-# Courier Integration Framework
 
-A unified integration framework for multiple courier services built with Django, providing a consistent interface for creating waybills, tracking shipments, printing labels, and more.
+# 📦 Courier Integration Framework
 
-## Features
+A unified integration framework for multiple courier services built with **Django**, providing a consistent interface for creating waybills, generating labels, tracking shipments, and handling cancellations.
 
-- **Unified Courier Interface**: Common API for all courier services
-- **Extensible Architecture**: Easy to add new courier integrations with minimal code
-- **Core Features**:
-  - Create shipping waybills
-  - Generate shipping labels
-  - Track shipment status
-  - Cancel shipments (when supported by the courier)
-- **Status Standardization**: Maps different courier status codes to standardized system statuses
-- **REST API**: Complete API for integration with other systems
-- **Background Processing**: Automated tracking updates via Celery tasks
+![Courier Integration Architecture](image.png)
 
-## Architecture
+---
 
-The system uses several design patterns to ensure a clean, maintainable codebase:
+## ✨ Features
 
-- **Interface-Based Design**: All couriers implement a common interface
-- **Adapter Pattern**: Each courier has an adapter translating between system and courier APIs
-- **Factory Pattern**: Creates courier instances based on configuration
-- **Singleton Pattern**: Maintains a single instance per courier type
+- 🔌 **Unified Courier Interface**: One common API for all couriers.
+- 🧱 **Extensible Architecture**: Plug-and-play new courier adapters.
+- ⚙️ **Core Functionalities**:
+  - 📄 Create Waybills
+  - 🖨️ Generate Labels
+  - 📍 Track Shipments
+  - ❌ Cancel Shipments (if supported)
+- 🔁 **Status Standardization**: Maps courier-specific statuses to unified system statuses.
+- 🧠 **Background Processing**: Scheduled tracking updates via Celery workers.
+- 🌐 **REST API**: Easily integrable with external systems (e.g., eCommerce platforms).
 
-## Supported Couriers
+---
 
-- ARAMEX (implemented as proof of concept)
-- Easily extensible to support additional couriers
+## 🧠 Architecture Overview
 
-## Requirements
+### Design Patterns Used
+
+- **Interface-Based Design**: All couriers implement a shared base interface.
+- **Adapter Pattern**: Each courier adapter handles API translations.
+- **Factory Pattern**: Dynamically loads courier adapters based on config.
+- **Singleton Pattern**: Ensures only one instance of a courier class.
+
+---
+
+## 🚛 Supported Couriers
+
+- ✅ **ARAMEX** (implemented as proof of concept)
+- 🛠️ Easily extendable to FedEx, UPS, DHL, etc.
+
+---
+
+## 🛠️ Requirements
 
 - Python 3.8+
 - Django 3.2+
-- PostgreSQL / MySQL / SQLite
+- PostgreSQL
 - Redis (for Celery)
 
-## Installation
+---
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/zs-courier-integration.git
-   cd zs-courier-integration
-   ```
+## 🚀 Getting Started
 
-2. Create and activate a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+### 1. Clone the Repository
 
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+git clone https://github.com/milyasyousuf/zs-django-api.git
+cd zs-django-api
+```
 
-4. Set up the database:
-   ```bash
-   python manage.py migrate
-   ```
+### 2. Set Up Virtual Environment
 
-5. Create a superuser:
-   ```bash
-   python manage.py createsuperuser
-   ```
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-6. Configure courier settings (see Configuration section)
+### 3. Install Dependencies
 
-7. Run the development server:
-   ```bash
-   python manage.py runserver
-   ```
+```bash
+pip install -r requirements.txt/production.txt
+```
 
-## Configuration
+### 4. Database Setup
+
+```bash
+python manage.py migrate
+```
+
+### 5. Create Superuser
+
+```bash
+python manage.py createsuperuser
+```
+
+### 6. Configure Couriers (see below)
+
+### 7. Run the Server
+
+```bash
+python manage.py runserver
+```
+
+---
+
+## ⚙️ Configuration
+
+### Courier Mapping
+
+```python
+# settings.py
+
+COURIER_MAPPING = {
+    'aramex': 'zs.apps.courier_integrations.adapters.aramex.ARAMEXCourierAdapter',
+    # Add more couriers as needed
+}
+```
 
 ### Courier Settings
 
-Add courier configurations to your Django settings:
-
 ```python
 # settings.py
 
-# Courier class mapping
-COURIER_MAPPING = {
-    'aramex': 'zs.apps.courier_integrations.adapters.aramex.ARAMEXCourierAdapter',
-    # Add other couriers as needed
-}
-
-# Courier-specific configurations
 COURIER_CONFIG = {
     'ARAMEX': {
-        'api_url': 'https://api.aramex.com/v1',
-        'tracking_url': 'https://www.aramex.com/track/',
-        'pass_key': 'your_api_key_here',
-        # Other courier-specific settings
+        'api_url': env('ARAMEX_API_URL', default='http://ws.aramex.net'),
+        'username': env('ARAMEX_USERNAME', default="testingapi@aramex.com"),
+        'password': env('ARAMEX_PASSWORD', default="R123456789$r"),
+        'account_number': env('ARAMEX_ACCOUNT_NUMBER', default="20016"),
+        'account_pin': env('ARAMEX_ACCOUNT_PIN', default="331421"),
+        'account_entity': env('ARAMEX_ACCOUNT_ENTITY', default="AMM"),
+        'account_country_code': env('ARAMEX_ACCOUNT_COUNTRY_CODE', default="JO"),
+        'source': env('ARAMEX_SOURCE', default=24),
+        'tracking_url': env('ARAMEX_TRACKING_URL', default='https://www.aramex.com/track/results'),
+        'shipper_name': env('ARAMEX_SHIPPER_NAME', default="Test Shipper"),
+        'shipper_company': env('ARAMEX_SHIPPER_COMPANY', default="Test Company"),
+        'shipper_address_line1': env('ARAMEX_SHIPPER_ADDRESS_LINE1', default="Test Address Line 1"),
+        'shipper_address_line2': env('ARAMEX_SHIPPER_ADDRESS_LINE2', default="Test Address Line 2"),
+        'shipper_city': env('ARAMEX_SHIPPER_CITY', default="Amman"),
+        'shipper_postal_code': env('ARAMEX_SHIPPER_POSTAL_CODE', default="11953"),
+        'shipper_country_code': env('ARAMEX_SHIPPER_COUNTRY_CODE', default="JO"),
+        'shipper_phone': env('ARAMEX_SHIPPER_PHONE', default="+962777777777"),
+        'shipper_email': env('ARAMEX_SHIPPER_EMAIL', default="test@example.com"),
     },
-    # Add configurations for other couriers
 }
 ```
 
-### Celery Configuration
+> ⚠️ **Note:** I do not have access to actual Aramex credentials. All integration work is implemented with reference to their WSDL documentation:
+>
+> - [Tracking WSDL](https://ws.aramex.net/shippingapi/tracking/service_1_0.svc?wsdl)
+> - [Shipping WSDL](https://ws.aramex.net/ShippingAPI.V2/Shipping/Service_1_0.svc?wsdl)
 
-Configure Celery for background tasks:
+---
+
+## 🔁 Celery Configuration
 
 ```python
 # settings.py
+
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-
 ```
 
-## Setting Up for Testing
+Start Celery Worker:
 
-To quickly set up test data and configurations:
+```bash
+celery -A zs worker -l info
+```
 
-1. Run the setup script:
-   ```bash
-   python manage.py seed_courier_data
-   ```
+Start Celery Beat Scheduler:
 
-   This will create:
-   - Test courier entries
-   - Sample shipments
-   - Initial tracking data
+```bash
+celery -A zs beat -l info
+```
 
-2. Or manually create courier entries via the Django admin:
-   - Log in to the admin interface at `http://localhost:8000/admin/`
-   - Navigate to "Couriers" and add entries for each courier with appropriate configurations
+---
 
-## API Endpoints
+## 🧪 Testing & Development
 
-### Couriers
+### Generate Test Data
 
-- `GET /api/couriers/` - List all active couriers
+```bash
+python manage.py seed_courier_data
+```
 
-### Shipments
+Or use Django Admin to manually add couriers and shipments.
 
-- `GET /api/shipments/` - List all shipments
-- `POST /api/shipments/` - Create a new shipment
-- `GET /api/shipments/{id}/` - Get shipment details
-- `POST /api/shipments/{id}/track/` - Update tracking information
-- `GET /api/shipments/{id}/history/` - Get tracking history
-- `POST /api/shipments/{id}/cancel/` - Cancel a shipment
-- `GET /api/shipments/{id}/label/` - Get waybill label PDF
+### Run Tests
 
-## Creating a New Shipment
+```bash
+python manage.py test zs.apps.courier_integrations
+```
 
-Example API request:
+---
+
+## 🧩 Adding a New Courier Integration
+
+1. Create a new adapter class:
+
+```python
+from zs.apps.courier_integrations.adapters.base import BaseCourierAdapter
+
+class NewCourierAdapter(BaseCourierAdapter):
+    def create_waybill(self, shipment_data): pass
+    def print_waybill_label(self, waybill_id): pass
+    def track_shipment(self, waybill_id): pass
+    def cancel_shipment(self, waybill_id): pass
+
+    def _get_status_mappings(self):
+        return {
+            "courier_status_1": "PENDING",
+            "courier_status_2": "IN_TRANSIT",
+        }
+```
+
+2. Register it in settings:
+
+```python
+COURIER_MAPPING['new_courier'] = 'zs.apps.courier_integrations.adapters.new_courier.NewCourierAdapter'
+```
+
+3. Create a DB entry:
+
+```python
+from zs.apps.courier_integrations.models.courier import Courier
+
+Courier.objects.create(
+    code='new_courier',
+    name='New Courier Service',
+    is_active=True,
+    supports_cancellation=True
+)
+```
+
+---
+
+## 📦 API Endpoints
+
+- `GET /api/couriers/`
+- `POST /api/shipments/`
+- `GET /api/shipments/{id}/`
+- `POST /api/shipments/{id}/track/`
+- `POST /api/shipments/{id}/cancel/`
+- `GET /api/shipments/{id}/label/`
+
+Sample Create:
 
 ```json
 POST /api/shipments/
@@ -164,113 +251,13 @@ POST /api/shipments/
 }
 ```
 
-## Adding a New Courier Integration
+---
 
-1. Create a new adapter class:
+## 🏁 Production Deployment
 
-```python
-# courier_integrations/adapters/new_courier.py
-from zs.apps.courier_integrations.adapters.base import BaseCourierAdapter
+- Set `DEBUG=False`
+- Use PostgreSQL
+- Run with Gunicorn + Nginx
+- Celery with supervisor/systemd
 
-class NewCourierAdapter(BaseCourierAdapter):
-    """New Courier Implementation"""
-    
-    def create_waybill(self, shipment_data):
-        # Implementation
-        pass
-        
-    def print_waybill_label(self, waybill_id):
-        # Implementation
-        pass
-    
-    def track_shipment(self, waybill_id):
-        # Implementation
-        pass
-    
-    def _get_status_mappings(self):
-        # Courier-specific status mappings
-        return {
-            "courier_status_1": "PENDING",
-            "courier_status_2": "IN_TRANSIT",
-            # etc.
-        }
-    
-    def cancel_shipment(self, waybill_id):
-        # Implementation if supported
-        pass
-```
-
-2. Add the courier configuration to settings:
-
-```python
-# settings.py
-COURIER_MAPPING['new_courier'] = 'zs.apps.courier_integrations.adapters.new_courier.NewCourierAdapter'
-
-COURIER_CONFIG['NEW_COURIER'] = {
-    'api_url': 'https://api.newcourier.com',
-    'tracking_url': 'https://tracking.newcourier.com',
-    # Other settings
-}
-```
-
-3. Add the courier to the database:
-
-```python
-from zs.apps.courier_integrations.models.courier import Courier
-Courier.objects.create(
-    code='new_courier',
-    name='New Courier Service',
-    is_active=True,
-    supports_cancellation=True
-)
-```
-
-## Testing
-
-Run unit tests:
-
-```bash
-python manage.py test zs.apps.courier_integrations
-```
-
-## Management Commands
-
-### Create Test Data
-
-Creates sample data for testing:
-
-```bash
-python manage.py setup_courier_test_data
-```
-
-### Update All Shipments
-
-Manually trigger tracking updates for all active shipments:
-
-```bash
-python manage.py update_all_shipments
-```
-
-## Celery Workers
-
-Start Celery worker:
-
-```bash
-celery -A zs worker -l info
-```
-
-Start Celery beat scheduler:
-
-```bash
-celery -A zs beat -l info
-```
-
-## Running in Production
-
-For production deployment:
-
-1. Set `DEBUG=False` in settings
-2. Configure a proper database (PostgreSQL recommended)
-3. Set up proper web server (Nginx + Gunicorn/uWSGI)
-4. Set up Celery with supervisor or systemd
-5. Configure proper logging
+---
