@@ -1,5 +1,5 @@
 
-# 📦 Courier Integration Framework
+#  Courier Integration Framework
 
 A unified integration framework for multiple courier services built with **Django**, providing a consistent interface for creating waybills, generating labels, tracking shipments, and handling cancellations.
 
@@ -7,22 +7,22 @@ A unified integration framework for multiple courier services built with **Djang
 
 ---
 
-## ✨ Features
+##  Features
 
-- 🔌 **Unified Courier Interface**: One common API for all couriers.
-- 🧱 **Extensible Architecture**: Plug-and-play new courier adapters.
-- ⚙️ **Core Functionalities**:
-  - 📄 Create Waybills
-  - 🖨️ Generate Labels
-  - 📍 Track Shipments
-  - ❌ Cancel Shipments (if supported)
-- 🔁 **Status Standardization**: Maps courier-specific statuses to unified system statuses.
-- 🧠 **Background Processing**: Scheduled tracking updates via Celery workers.
-- 🌐 **REST API**: Easily integrable with external systems (e.g., eCommerce platforms).
+-  **Unified Courier Interface**: One common API for all couriers.
+-  **Extensible Architecture**: Plug-and-play new courier adapters.
+- ️ **Core Functionalities**:
+  -  Create Waybills
+  - ️ Generate Labels
+  -  Track Shipments
+  -  Cancel Shipments (if supported)
+-  **Status Standardization**: Maps courier-specific statuses to unified system statuses.
+-  **Background Processing**: Scheduled tracking updates via Celery workers.
+-  **REST API**: Easily integrable with external systems (e.g., eCommerce platforms).
 
 ---
 
-## 🧠 Architecture Overview
+##  Architecture Overview
 
 ### Design Patterns Used
 
@@ -33,14 +33,14 @@ A unified integration framework for multiple courier services built with **Djang
 
 ---
 
-## 🚛 Supported Couriers
+##  Supported Couriers
 
-- ✅ **ARAMEX** (implemented as proof of concept)
-- 🛠️ Easily extendable to FedEx, UPS, DHL, etc.
+-  **ARAMEX** (implemented as proof of concept)
+- ️ Easily extendable to FedEx, UPS, DHL, etc.
 
 ---
 
-## 🛠️ Requirements
+## Requirements
 
 - Python 3.8+
 - Django 3.2+
@@ -49,7 +49,7 @@ A unified integration framework for multiple courier services built with **Djang
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Clone the Repository
 
@@ -65,10 +65,23 @@ python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-### 3. Install Dependencies
+### 3. Install Dependencies and create an env file
 
 ```bash
 pip install -r requirements.txt/production.txt
+
+touch .env
+
+echo "DJANGO_ADMIN_URL=/admin/
+CELERY_FLOWER_USER=CELERY_BROKER_USER
+CELERY_FLOWER_PASSWORD=CELERY_FLOWER_PASSWORD
+DATABASE_URL=postgres://postgres:password@127.0.0.1:5432/courier_db
+DJANGO_READ_DOT_ENV_FILE=True
+USE_DOCKER=False
+CELERY_BROKER_URL=redis://localhost:6379
+REDIS_URL=redis://localhost:6379
+DJANGO_SECRET_KEY=YOUR_KEY" >> .env
+``` 
 ```
 
 ### 4. Database Setup
@@ -93,7 +106,7 @@ python manage.py runserver
 
 ---
 
-## ⚙️ Configuration
+## ️ Configuration
 
 ### Courier Mapping
 
@@ -115,7 +128,7 @@ COURIER_CONFIG = {
     'ARAMEX': {
         'api_url': env('ARAMEX_API_URL', default='http://ws.aramex.net'),
         'username': env('ARAMEX_USERNAME', default="testingapi@aramex.com"),
-        'password': env('ARAMEX_PASSWORD', default="R123456789$r"),
+        'password': env('ARAMEX_PASSWORD', default="R1r"),
         'account_number': env('ARAMEX_ACCOUNT_NUMBER', default="20016"),
         'account_pin': env('ARAMEX_ACCOUNT_PIN', default="331421"),
         'account_entity': env('ARAMEX_ACCOUNT_ENTITY', default="AMM"),
@@ -142,7 +155,7 @@ COURIER_CONFIG = {
 
 ---
 
-## 🔁 Celery Configuration
+##  Celery Configuration
 
 ```python
 # settings.py
@@ -183,7 +196,7 @@ python manage.py test zs.apps.courier_integrations
 
 ---
 
-## 🧩 Adding a New Courier Integration
+##  Adding a New Courier Integration
 
 1. Create a new adapter class:
 
@@ -224,7 +237,7 @@ Courier.objects.create(
 
 ---
 
-## 📦 API Endpoints
+##  API Endpoints
 
 - `GET /api/couriers/`
 - `POST /api/shipments/`
